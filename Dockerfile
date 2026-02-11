@@ -11,6 +11,9 @@ RUN apk add --no-cache git make
 WORKDIR /src
 RUN git clone https://github.com/sipeed/picoclaw.git .
 
+# Patch: Add gemma model support to Gemini provider detection
+RUN sed -i 's/strings.Contains(lowerModel, "gemini")/strings.Contains(lowerModel, "gemini") || strings.Contains(lowerModel, "gemma")/' pkg/providers/http_provider.go
+
 # Build the binary
 RUN make deps && make build
 
