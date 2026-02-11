@@ -5,9 +5,6 @@ PICOCLAW_HOME="$HOME/.picoclaw"
 CONFIG_FILE="$PICOCLAW_HOME/config.json"
 WORKSPACE="$PICOCLAW_HOME/workspace"
 
-# Cria diretório se não existe
-mkdir -p "$WORKSPACE"
-
 echo "======================================"
 echo "🦐 PicoClaw Docker - Inicializando..."
 echo "======================================"
@@ -90,10 +87,66 @@ echo "  Config: $CONFIG_FILE"
 echo "======================================"
 echo ""
 
-# --- Onboard na primeira execução ---
+# --- Cria workspace e arquivos essenciais ---
 if [ ! -f "$WORKSPACE/SOUL.md" ]; then
-    echo "🚀 Primeira execução detectada - rodando onboard..."
-    picoclaw onboard || echo "⚠️  Onboard falhou, mas continuando..."
+    echo "📁 Criando workspace..."
+    mkdir -p "$WORKSPACE/memory"
+    mkdir -p "$WORKSPACE/skills"
+    
+    # SOUL.md
+    cat > "$WORKSPACE/SOUL.md" << 'EOFSOULO'
+# Soul
+
+I am picoclaw, a lightweight AI assistant.
+
+## Personality
+
+- Helpful and friendly
+- Concise and to the point
+- Curious and eager to learn
+- Honest and transparent
+
+## Values
+
+- Accuracy over speed
+- User privacy and safety
+- Transparency in actions
+- Continuous improvement
+EOFSOULO
+
+    # USER.md
+    cat > "$WORKSPACE/USER.md" << 'EOFUSER'
+# User
+
+Information about user goes here.
+
+## Preferences
+
+- Communication style: casual
+- Timezone: UTC
+- Language: English
+EOFUSER
+
+    # MEMORY.md
+    cat > "$WORKSPACE/memory/MEMORY.md" << 'EOFMEMORY'
+# Long-term Memory
+
+This file stores important information that should persist across sessions.
+
+## User Information
+
+(Important facts about user)
+
+## Preferences
+
+(User preferences learned over time)
+
+## Important Notes
+
+(Things to remember)
+EOFMEMORY
+
+    echo "  ✅ Workspace criado em $WORKSPACE"
     echo ""
 fi
 
