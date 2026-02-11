@@ -1,0 +1,29 @@
+services:
+  picoclaw:
+    build: .
+    container_name: picoclaw
+    restart: unless-stopped
+    environment:
+      # === OBRIGATÓRIO ===
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+
+      # === MODELO (padrão: gemini-2.5-flash-lite-preview-09-2025) ===
+      - PICOCLAW_MODEL=${PICOCLAW_MODEL:-gemini-2.5-flash-lite-preview-09-2025}
+
+      # === TELEGRAM (opcional) ===
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_ALLOW_FROM=${TELEGRAM_ALLOW_FROM:-}
+
+      # === DISCORD (opcional) ===
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN:-}
+      - DISCORD_ALLOW_FROM=${DISCORD_ALLOW_FROM:-}
+
+      # === BRAVE SEARCH (opcional) ===
+      - BRAVE_SEARCH_API_KEY=${BRAVE_SEARCH_API_KEY:-}
+
+    volumes:
+      # Persiste workspace, memória (SOUL.md, MEMORY.md), e config
+      - picoclaw_data:/home/picoclaw/.picoclaw
+
+volumes:
+  picoclaw_data:
