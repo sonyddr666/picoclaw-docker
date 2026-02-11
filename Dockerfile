@@ -18,6 +18,9 @@ RUN sed -i 's/strings.Contains(lowerModel, "gemini")/strings.Contains(lowerModel
 # Patch 2: Flexible allow_from filter (accepts ID-only, username-only, or full ID|USERNAME)
 COPY patches/base.go /src/pkg/channels/base.go
 
+# Patch 3: Remove thinking animation to avoid Telegram rate limits
+COPY patches/telegram.go /src/pkg/channels/telegram.go
+
 # Build the binary
 RUN make deps && make build
 
